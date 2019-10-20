@@ -47,7 +47,7 @@ class Database:
         if preferences[0] not in self.__subjectsToSessions:
             return foundSessions #empty list
 
-        subjectSessions = self.__subjectsToSessions[preferences[0]]
+        subjectSessions = self.__subjectsToSessions[preferences[0]] #list of sessions based on (preferred) subject
 
         #just return default list of all sessions for this subject
         if preferences[1] is None and preferences[2] is None and preferences[3] is None:
