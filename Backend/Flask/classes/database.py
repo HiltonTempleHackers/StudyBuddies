@@ -33,10 +33,11 @@ class Database:
             if password == self.studentDict[email].password:
                 #login successful
                 self.studentDict[email].toggleLogin()
+                return "Successful"
             else:
                 return "Invalid Password"
         else:
-            return "No Email exists for this account"
+            return "No email exists for this account"
 
     #preferences is a list: [subject, minSize, maxSize, date]
     #returns a list

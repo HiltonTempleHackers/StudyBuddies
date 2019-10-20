@@ -41,7 +41,7 @@ class Student:
             self.__loggedIn = True
 
     def __str__(self):
-        return "E: " + self.__email + "FN: " + self.__firstName + "LN: " + self.__lastName + "SC: " + self.__school + "YR: " + self.__year + "MJ: " + self.__major
+        return "E: " + self.__email + "PW: " + self.__password + "FN: " + self.__firstName + "LN: " + self.__lastName + "SC: " + self.__school + "YR: " + self.__year + "MJ: " + self.__major
     
 
 
