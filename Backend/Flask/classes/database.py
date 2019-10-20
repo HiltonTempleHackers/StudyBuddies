@@ -1,5 +1,5 @@
-from student import Student
-from session import Session
+from classes import student
+from classes import session
 
 class Database:
 

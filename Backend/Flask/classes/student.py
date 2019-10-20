@@ -42,10 +42,10 @@ class Student:
 
 
 #end class stuff
-def main():
+'''def main():
     s1 = Student("wow@gmail.com", "1234", "wilson", "diaz", "temple", "sophomore", "ist")
     print(s1.fullname)
     print(s1.school)
 
 if __name__ == "__main__":
-     main()
+     main()'''
