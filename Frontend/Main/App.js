@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, Image, TextInput, Form, Keyboard} from 'react-native';
+import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, Image, TextInput, Form, Keyboard, ScrollView} from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { createAppContainer, withOrientation } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import ModalDropdown from 'react-native-modal-dropdown';
+import CalendarPicker from 'react-native-calendar-picker';
 
 
 function Separator() {
@@ -49,30 +50,61 @@ export class Join extends React.Component {
   static navigationOptions = {
     title: 'JOIN',
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedStartDate: null,
+    };
+    this.onDateChange = this.onDateChange.bind(this);
+  }
+ 
+  onDateChange(date) {
+    this.setState({
+      selectedStartDate: date,
+    });
+  }
+
   render() {
+    const { selectedStartDate } = this.state;
+    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     return (
-      <View style={styles.pages}>
-        <Text style={styles.pageHeader}>JOIN A STUDY GROUP</Text>
-        <Separator></Separator>
-        <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}>
-        </ModalDropdown>
-        <Separator></Separator>
-        <TextInput
-        style={styles.textInput}
-        placeholder="Minimum amount of STUDY BUDDIES"
-        keyboardType={'numeric'}
-        maxLength={2}
-        onBlur={Keyboard.dismiss()}
-        />
-        <Separator></Separator>
-        <TextInput
-        style={styles.textInput}
-        placeholder="Maximum amount of STUDY BUDDIES"
-        keyboardType={'numeric'}
-        maxLength={2}
-        onBlur={Keyboard.dismiss()}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.pages}>
+          <Text style={styles.pageHeader}>JOIN A STUDY SESSION</Text>
+          <Separator></Separator>
+          <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}>
+          </ModalDropdown>
+          <Separator></Separator>
+          <TextInput
+          // name={minNum}
+          style={styles.textInput}
+          placeholder="Minimum amount of STUDY BUDDIES"
+          keyboardType={'numeric'}
+          type={'numeric'}
+          maxLength={2}
+          onBlur={Keyboard.dismiss()}
+          />
+          <Separator></Separator>
+          <TextInput
+          // name={maxNum}
+          style={styles.textInput}
+          placeholder="Maximum amount of STUDY BUDDIES"
+          keyboardType={'numeric'}
+          maxLength={2}
+          onBlur={Keyboard.dismiss()}
+          />
+          <Separator></Separator>
+          <Text style={styles.calendarText}>Select a study date:{"\n"}{ startDate }</Text>
+          <CalendarPicker onDateChange={this.onDateChange}  style={styles.calendarContainer} 
+          width={300} todayBackgroundColor={'#6fa8dcff'} selectedDayColor={'white'}>
+          </CalendarPicker>
+          <TouchableOpacity
+            style={styles.buttonStyle} 
+            onPress={() => Alert.alert("Searching...")}>
+                <Text style={styles.text}>SEARCH</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
     );
   }
 }
@@ -86,16 +118,55 @@ class Create extends React.Component {
     this.state = {text: ''};
   }
   render() {
+    const { selectedStartDate } = this.state;
+    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     return (
-      <View style={styles.pages}>
-        <Text style={styles.pageHeader}>JOIN A STUDY GROUP</Text>
-        <TextInput
-        style={styles.textInput}
-        placeholder="Your name"
-        maxLength={20}
-        onBlur={Keyboard.dismiss()}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.pages}>
+          <Text style={styles.pageHeader}>CREATE A STUDY SESSION</Text>
+          <Separator></Separator>
+          <TextInput
+          // name={minNum}
+          style={styles.textInput}
+          placeholder="Session Name"
+          maxLength={20}
+          onBlur={Keyboard.dismiss()}
+          value={this.state.name}
+          />
+          <Separator></Separator>
+          <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}>
+          </ModalDropdown>
+          <Separator></Separator>
+          <TextInput
+          // name={minNum}
+          style={styles.textInput}
+          placeholder="Minimum amount of STUDY BUDDIES"
+          keyboardType={'numeric'}
+          type={'numeric'}
+          maxLength={2}
+          onBlur={Keyboard.dismiss()}
+          />
+          <Separator></Separator>
+          <TextInput
+          // name={maxNum}
+          style={styles.textInput}
+          placeholder="Maximum amount of STUDY BUDDIES"
+          keyboardType={'numeric'}
+          maxLength={2}
+          onBlur={Keyboard.dismiss()}
+          />
+          <Separator></Separator>
+          <Text style={styles.calendarText}>Select a study date:{"\n"}{ startDate }</Text>
+          <CalendarPicker onDateChange={this.onDateChange}  style={styles.calendarContainer} 
+          width={300} todayBackgroundColor={'#6fa8dcff'} selectedDayColor={'white'}>
+          </CalendarPicker>
+          <TouchableOpacity
+            style={styles.buttonStyle} 
+            onPress={() => Alert.alert("Searching...")}>
+                <Text style={styles.text}>CREATE</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
     );
   }
 }
@@ -107,7 +178,7 @@ class Chat extends React.Component {
   render() {
     return (
       <View style={styles.pages}>
-        <Text style={styles.pageHeader}>STUDY GROUP CHATS</Text>
+        <Text style={styles.pageHeader}>MY STUDY SESSIONS</Text>
       </View>
     );
   }
@@ -203,6 +274,22 @@ const styles = StyleSheet.create({
     fontSize:25, 
     color:'#c7c7c7', 
     justifyContent: 'center'
+  },
+
+  calendarContainer: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+      marginTop: 100,
+    },
+
+  calendarText: {
+    fontSize:12, 
+      alignItems: 'center', 
+      backgroundColor: 'white', 
+      width: 300, 
+      height: 50, 
+      textAlignVertical: 'center',
+      paddingLeft: 20,
   }
 });
 
