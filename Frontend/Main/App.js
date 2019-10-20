@@ -3,6 +3,8 @@ import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, 
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { createAppContainer, withOrientation } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import ModalDropdown from 'react-native-modal-dropdown';
+
 
 function Separator() {
   return <View style = {styles.separator}/>;
@@ -10,7 +12,7 @@ function Separator() {
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: 'STUDY BUDDIES',
+    title: 'HOME',
   };
 
   render() {
@@ -51,10 +53,23 @@ export class Join extends React.Component {
     return (
       <View style={styles.pages}>
         <Text style={styles.pageHeader}>JOIN A STUDY GROUP</Text>
+        <Separator></Separator>
+        <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}>
+        </ModalDropdown>
+        <Separator></Separator>
         <TextInput
         style={styles.textInput}
-        placeholder="Your name"
-        maxLength={20}
+        placeholder="Minimum amount of STUDY BUDDIES"
+        keyboardType={'numeric'}
+        maxLength={2}
+        onBlur={Keyboard.dismiss()}
+        />
+        <Separator></Separator>
+        <TextInput
+        style={styles.textInput}
+        placeholder="Maximum amount of STUDY BUDDIES"
+        keyboardType={'numeric'}
+        maxLength={2}
         onBlur={Keyboard.dismiss()}
         />
       </View>
@@ -98,6 +113,7 @@ class Chat extends React.Component {
   }
 }
 
+const courses = ['Data Structures', 'Calculus', 'Discrete Math', 'Probability and Statistics', 'Other'];
 
 const styles = StyleSheet.create({
   container: {
@@ -168,10 +184,25 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     height: 50,
-    fontSize: 25,
     paddingLeft: 20,
     paddingRight: 20,
     color: 'black',
+    width: 300,
+  },
+
+  dropDown: {
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: 'black',
+    width: 300,
+    fontSize:25, 
+    color:'#c7c7c7', 
+    justifyContent: 'center'
   }
 });
 
