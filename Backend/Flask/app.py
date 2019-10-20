@@ -5,10 +5,6 @@ from classes import database as db
 
 app = Flask(__name__)
 
-mainDB = db
-session = sesh
-
-
 #
 
 @app.route('/', methods=['POST', 'GET'])
@@ -26,8 +22,9 @@ def index():
         major = request.form.get('major')
 
         s1 = st.Student(email, password, firstName, lastName, school, year, major)
-
-        return s1.__str__()
+        mainDB = db.Database()
+        mainDB.addStudent(s1)
+        return mainDB.
 
     else:
         return render_template('signUp.html')
