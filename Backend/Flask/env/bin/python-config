@@ -1,4 +1,4 @@
-#!/Users/handelldesulme/Desktop/Software/_ProjectBased/HackathonApps/StudyBuddies/Backend/env/bin/python
+#!/Users/handelldesulme/Desktop/Software/_ProjectBased/HackathonApps/StudyBuddies/Backend/Flask/env/bin/python
 
 import sys
 import getopt

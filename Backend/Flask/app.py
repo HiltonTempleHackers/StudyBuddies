@@ -1,41 +1,16 @@
 from flask import Flask, render_template, url_for, request, redirect
+from classes import session as sesh
+from classes import student as stud
+from classes import database as db
+
 
 app = Flask(__name__)
 
+mainDB = db
+session = sesh
+
+
 #
-class Student:
-
-    def __init__(self, email, password, firstName, lastName, school, year, major):
-        self.__email = email
-        self.__password = password
-        self.__firstName = firstName
-        self.__lastName = lastName
-        self.__school = school
-        self.__year = year
-        self.__major = major
-
-    @property
-    def fullname(self):
-        return "{} {}".format(self.__firstName, self.__lastName)
-
-    @property
-    def school(self):
-        return self.__school
-
-    def searchGroups1(self, subject):
-        pass
-
-    def searchGroups2(self, subject, maxSize):
-        pass
-
-    def searchGroups3(self, subject, date):
-        pass
-
-    def searchGroups4(self, subject, maxSize, date):
-        pass
-
-    def __str__(self):
-        return "Email: "+self.__email+"\nPassword: "+self.__password+"\nFirst Name: "+self.__firstName+"\nLast Name: "+self.__lastName+"\nSchool: "+self.__school+"\nYear: "+self.__year+"\nMajor: "+self.__major+"\n"
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -52,7 +27,7 @@ def index():
         major = request.form.get('major')
 
 
-        s1 = Student(email, password, firstName, lastName, school, year, major)
+        s1 = stud(email, password, firstName, lastName, school, year, major)
 
         #new_task = task_content.popitem()
         return s1.__str__()
