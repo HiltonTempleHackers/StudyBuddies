@@ -65,7 +65,7 @@ class Session:
             return True
 
     def __str__(self):
-        print("" + self.__title + "; " + self.__subject + "; " + str(self.__maxSize) + "; " + self.__school + "; " + self.__date.__str__())
+        return "Title: " + self.__title + "; Subject: " + self.__subject + "; Max Size: " + str(self.__maxSize) + "; School: " + self.__school + "; Date: " + self.__date.__str__()
 
     def showStudents(self):
         for student in self.__studentList:

@@ -3,6 +3,7 @@ from classes import session as sesh
 from classes import student as st
 from classes import database as db
 import json
+import requests
 
 app = Flask(__name__)
 
@@ -25,6 +26,11 @@ def register():
 
         thisStudent = st.Student(email, password, firstName, lastName, school, year, major)
         mainDB.addStudent(thisStudent)
+
+        '''headers = {'your_header_title': 'your_header'}
+        # In you case: headers = {'content-type': 'application/json'}
+        r = requests.post("your_url", headers=headers, data=your_data)'''
+
         return mainDB.studentDict[email].__str__()
     else:
         return render_template('register.html')
@@ -50,7 +56,7 @@ def profile():
         # pass
         # task_content = request.form.get('content') #request.form content type = ImmutableMultiDict; get returns String
 
-        requests.post("http://127.0.0.1:5000/determine_escalation/", json=s).json()
+        #requests.post("http://127.0.0.1:5000/determine_escalation/", json=s).json()
 
         return mainDB.validateStudent(email, password)
         #return mainDB.studentDict[email].__str__()
@@ -88,14 +94,23 @@ def sessionDetails():
 @app.route('/createSession', methods=['POST', 'GET'])
 def createSession():
     if request.method == 'POST':
-        # pass
-        # task_content = request.form.get('content') #request.form content type = ImmutableMultiDict; get returns String
 
-        email = request.form.get('email')
-        password = request.form.get('password')
+        title = request.form.get('title')
+        subject = request.form.get('subject')
+        school = request.form.get('school')
+        maxSize = request.form.get('maxSize')
+        date = request.form.get('date')
 
-        return mainDB.validateStudent(email, password)
-        #return mainDB.studentDict[email].__str__()
+        thisSession = sesh.Session(title, subject, school, maxSize, date)
+        mainDB.addSession(thisSession)
+
+        returnList = []
+
+        for i in mainDB.subjectsToSessions[subject]:
+            returnList.append(i.__str__())
+
+        return returnList[0]
+
     else:
         return render_template('createSession.html')
 
