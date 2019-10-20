@@ -50,6 +50,33 @@ def login():
     else:
         return render_template('login.html')
 
+@app.route('/createSession', methods=['POST', 'GET'])
+def createSession():
+    if request.method == 'POST':
+
+        title = request.form.get('title')
+        subject = request.form.get('subject')
+        school = request.form.get('school')
+        maxSize = request.form.get('maxSize')
+        date = request.form.get('date')
+
+        thisSession = sesh.Session(title, subject, school, maxSize, date)
+        mainDB.addSession(thisSession)
+
+        returnList = []
+
+        for i in mainDB.subjectsToSessions[subject]:
+            returnList.append(i.__str__())
+
+        return returnList.__str__()
+
+    else:
+        return render_template('createSession.html')
+
+
+
+
+
 @app.route('/profile', methods=['POST', 'GET'])
 def profile():
     if request.method == 'POST':
@@ -90,29 +117,6 @@ def sessionDetails():
         #return mainDB.studentDict[email].__str__()
     else:
         return render_template('sessionDetails.html')
-
-@app.route('/createSession', methods=['POST', 'GET'])
-def createSession():
-    if request.method == 'POST':
-
-        title = request.form.get('title')
-        subject = request.form.get('subject')
-        school = request.form.get('school')
-        maxSize = request.form.get('maxSize')
-        date = request.form.get('date')
-
-        thisSession = sesh.Session(title, subject, school, maxSize, date)
-        mainDB.addSession(thisSession)
-
-        returnList = []
-
-        for i in mainDB.subjectsToSessions[subject]:
-            returnList.append(i.__str__())
-
-        return returnList[0]
-
-    else:
-        return render_template('createSession.html')
 
 @app.route('/joinSession', methods=['POST', 'GET'])
 def joinSession():
