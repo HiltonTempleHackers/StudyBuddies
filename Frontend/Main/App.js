@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, 
-  Image, TextInput, Form, Keyboard, ScrollView, List, FlatList, Dimensions} from 'react-native';
+  Image, TextInput, Form, Keyboard, ScrollView, List, FlatList, Dimensions, TouchableHighlight} from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { createAppContainer, withOrientation } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -25,8 +25,8 @@ class HomeScreen extends React.Component {
       <View style={styles.container}>
       <Image source={require('./assets/mediumDance.png')} />
           <Separator></Separator>
-          <Text style={styles.header}>WELCOME</Text>
-          <Text>TO STUDY BUDDIES</Text>
+          <Text>WELCOME</Text>
+          <Text style={styles.header}>STUDY BUDDIES</Text>
           <Separator></Separator>
           <TouchableOpacity
           style={styles.buttonStyle} 
@@ -119,10 +119,194 @@ export class Join extends React.Component {
   }
 }
 
+class SignUp extends React.Component {
+  static navigationOptions = {
+    title: 'CREATE PROFILE',
+  defaultNavigationOptions: {
+  headerStyle: {
+    backgroundColor: '#d8e5f1',
+  },
+  headerTintColor: '#d8e5f1',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  }
+  },
+};
+  render() {
+    const { navigation } = this.props;
+    const otherParam = navigation.getParam('otherParam', 'Profile');
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={styles.header}></View>
+      {/* <Image source={require('C:\Users\marya\temp\StudyBuddies\Frontend\HankRU\assets')}></Image> */}
+        <Separator>  </Separator>
+          <Separator>  </Separator>
+          <View style={styles.body}>
+            <View style={styles.bodyContent}>
+            <Separator>  </Separator>
+      <Text style={styles.name}>
+          Complete Your Profile
+        </Text>
+    
+      <Separator>  </Separator>
+              <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="First Name"
+              underlineColorAndroid='transparent'
+              onChangeText={(First) => this.setState({First})}/>
+        </View>              
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Last Name"
+              underlineColorAndroid='transparent'
+              onChangeText={(Last) => this.setState({Last})}/>
+        </View>              
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="School"
+              underlineColorAndroid='transparent'
+              onChangeText={(School) => this.setState({School})}/>
+        </View> 
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Year"
+              underlineColorAndroid='transparent'
+              onChangeText={(Year) => this.setState({Year})}/>
+       
+        </View> 
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Major"
+              underlineColorAndroid='transparent'
+              onChangeText={(Major) => this.setState({Major})}/>
+        </View>  
+        <TouchableHighlight style={styles.buttonContainer} title= "SeeProfile" onPress={() => this.props.navigation.navigate('Profile')}>
+            <Text>Next</Text>
+        </TouchableHighlight>                                            
+            </View>
+        </View>
+      </View>
+    );
+  }
+}
+
+
+class LoginView extends React.Component {
+  static navigationOptions = {
+    title: 'LOGIN',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#d8e5f1',
+      },
+      headerTintColor: '#d8e5f1',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    state = {
+      email   : '',
+      password: '',
+    }
+  }
+
+  onClickListener = (viewId) => {
+    Alert.alert("Alert", "Button pressed "+viewId);
+  }
+  
+  render() {
+    return (
+      <View style={styles.LoginContainer}>
+      <Separator></Separator>
+      <Text style={styles.LoginTitle}>
+          Hello
+        </Text>
+    
+      <Separator>  </Separator>
+       <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Email"
+              keyboardType="email-address"
+              underlineColorAndroid='transparent'
+              onChangeText={(email) => this.setState({email})}/>
+        </View>
+        
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.inputs}
+              placeholder="Password"
+              secureTextEntry={true}
+              underlineColorAndroid='transparent'
+              onChangeText={(password) => this.setState({password})}/>
+        </View>
+
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.props.navigation.navigate('Home')}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+            <Text>Forgot your password?</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.buttonContainer} title= "Sign Up" onPress={() => this.props.navigation.navigate('Sign')}>
+            <Text>Sign Up</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+}
+
 class Profile extends React.Component {
   static navigationOptions = {
     title: 'PROFILE',
-  };
+  defaultNavigationOptions: {
+  headerStyle: {
+    backgroundColor: '#d8e5f1',
+  },
+  headerTintColor: '#d8e5f1',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  }
+  },
+};
+  render() {
+   
+    return (
+      <View style={styles.container2}>
+      <View style={styles.header2}>
+        <View style={styles.headerContent2}>
+            <Image style={styles.avatar2}
+              source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
+
+            <Text style={styles.name2}>Bob Builder</Text>
+            <Text style={styles.userInfo2}>tuh19937@temple.edu </Text>
+            <Text style={styles.userInfo2}>Sophomore </Text>
+        </View>
+      </View>
+
+      <View style={styles.Container3}>
+         
+          <Text>Home</Text>
+        </View>
+
+        <View style={styles.Container3}>
+            <Text>Settings</Text>
+          </View>
+        
+
+        <View style={styles.Container3}>
+            <Text>Account Details</Text>
+          </View>
+        
+
+        <View style={styles.Container3}>
+            <Text>Edit Profile Photo</Text>
+          </View>
+      </View>
+    );
+  }
 }
 
 class Create extends React.Component {
@@ -195,6 +379,10 @@ class Chat extends React.Component {
     return (
       <View style={styles.pages}>
         <Text style={styles.pageHeader}>MY STUDY SESSIONS</Text>
+        <Separator></Separator>
+        <Image source={require('./assets/problem.png')} style={{justifyContent:'center'}} />
+        <Separator></Separator>
+        <Text style={{justifyContent:'center', textAlign:'center', textAlignVertical:'center'}}>Coming Soon!</Text>
       </View>
     );
   }
@@ -361,7 +549,7 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    paddingTop: 15
+    paddingTop: 15,
   },
 
   textInput: {
@@ -452,12 +640,148 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontWeight: 'bold',
     fontSize: 30,
-  }
+  },
+
+  header2:{
+    backgroundColor: "white",
+  },
+
+  headerContent2:{
+    padding:30,
+    alignItems: 'center',
+  },
+  avatar2: {
+    width: 130,
+    height: 130,
+    borderRadius: 63,
+    borderWidth: 4,
+    borderColor: "white",
+    marginBottom:10,
+  },
+  name2:{
+    fontSize:22,
+    color:"#000000",
+    fontWeight:'600',
+  },
+  userInfo2:{
+    fontSize:16,
+    color:"#778899",
+    fontWeight:'600',
+  },
+  body2:{
+    backgroundColor: "#d8e5f1ff",
+    height:500,
+    alignItems:'center',
+  },
+  item2:{
+    flexDirection : 'row',
+  },
+  infoContent2:{
+    flex:1,
+    alignItems:'center',
+    justifyContent: 'center',
+    paddingLeft:5
+  },
+  iconContent2:{
+    flex:1,
+    alignItems:'center',
+    paddingRight:2,
+  },
+  icon2:{
+    width:30,
+    height:30,
+    marginTop:20,
+  },
+  info2:{
+    fontSize:18,
+    marginTop:20,
+    color: "#696969",
+
+  },
+    Container3: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+    backgroundColor: "#d8e5f1",
+    alignSelf: 'center'
+  },
+
+  inputContainer: {
+    borderBottomColor: '#F5FCFF',
+    backgroundColor: '#d8e5f1ff',
+    borderRadius:30,
+    borderBottomWidth: 1,
+    width:250,
+    height:45,
+    marginBottom:20,
+    flexDirection: 'row',
+    alignItems:'center'
+  },
+
+  loginButton: {
+    backgroundColor: "#d8e5f1ff",
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+  },
+
+  buttonContainer: {
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+  },
+
+  loginText: {
+    color: 'white',
+  },
+
+  inputs:{
+    height:45,
+    marginLeft:16,
+    borderBottomColor: '#6fa8dcff',
+    flex:1,
+},
+
+LoginContainer: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#ffffff',
+},
+
+LoginTitle:{
+  textAlign: 'center',
+  fontSize:40,
+  },
+
+name:{
+  fontSize:28,
+  color: "#696969",
+  fontWeight: "600"
+},
+
+
+
 });
 
 
 const RootStack = createStackNavigator(
   {
+    Login: LoginView,
     Home: HomeScreen,
     Join: Join,
     Create: Create,
@@ -465,9 +789,10 @@ const RootStack = createStackNavigator(
     Feed: Feed,
     Session: Session,
     Profile: Profile,
+    Sign: SignUp,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
   }
 );
 
