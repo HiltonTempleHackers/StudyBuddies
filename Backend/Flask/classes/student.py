@@ -33,19 +33,16 @@ class Student:
     def password(self):
         return self.__password
 
-    def searchGroups(self, userSearchTerms):
-        pass
-
     def __str__(self):
-        return "Email: "+self.__email+"\nPassword: "+self.__password+"\nFirst Name: "+self.__firstName+"\nLast Name: "+self.__lastName+"\nSchool: "+self.__school+"\nYear: "+self.__year+"\nMajor: "+self.__major+"\n"
+        print("" + self.__email + "" + self.__firstName + '' + self.__lastName + "" + self.__school + "" + self.__year + "" + self.__major)
     
 
 
 #end class stuff
-'''def main():
+def main():
     s1 = Student("wow@gmail.com", "1234", "wilson", "diaz", "temple", "sophomore", "ist")
     print(s1.fullname)
     print(s1.school)
 
 if __name__ == "__main__":
-     main()'''
+     main()
