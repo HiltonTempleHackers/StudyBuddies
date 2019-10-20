@@ -41,8 +41,8 @@ class Session:
 
 
 #end class stuff
-def main():
+'''def main():
     pass
 
 if __name__ == "__main__":
-    main()
+    main()'''
