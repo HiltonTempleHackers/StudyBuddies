@@ -36,8 +36,12 @@ class Session:
     def date(self):
         return self.__date
     
-    def match(self):
-        pass
+    #returns bool
+    def matchSessionToPreferences(self, preferences):
+        #everything matches
+        if (preferences[0] <= self.__maxSize <= preferences[1]) and preferences[2] == self.__date:
+            return True
+
 
 
 #end class stuff

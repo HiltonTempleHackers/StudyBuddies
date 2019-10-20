@@ -1,3 +1,5 @@
+from database import Database
+
 class Student:
 
     def __init__(self, email, password, firstName, lastName, school, year, major):
@@ -33,8 +35,7 @@ class Student:
     def password(self):
         return self.__password
 
-    def searchGroups(self, userSearchTerms):
-        pass
+
     
 
 
