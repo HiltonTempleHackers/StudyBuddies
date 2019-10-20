@@ -24,10 +24,11 @@ def index():
         s1 = st.Student(email, password, firstName, lastName, school, year, major)
         mainDB = db.Database()
         mainDB.addStudent(s1)
-        return mainDB.
-
+        return mainDB.studentDict[email].__str__()
     else:
         return render_template('signUp.html')
+
+
 
 
 if __name__ == "__main__":

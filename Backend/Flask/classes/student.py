@@ -8,6 +8,7 @@ class Student:
         self.__school = school
         self.__year = year
         self.__major = major
+        self.__loggedIn = False
 
     @property
     def fullname(self):
@@ -33,8 +34,14 @@ class Student:
     def password(self):
         return self.__password
 
+    def toggleLogin(self):
+        if self.__loggedIn:
+            self.__loggedIn = False
+        else:
+            self.__loggedIn = True
+
     def __str__(self):
-        print("" + self.__email + "" + self.__firstName + '' + self.__lastName + "" + self.__school + "" + self.__year + "" + self.__major)
+        return "E: " + self.__email + "FN: " + self.__firstName + "LN: " + self.__lastName + "SC: " + self.__school + "YR: " + self.__year + "MJ: " + self.__major
     
 
 

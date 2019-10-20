@@ -1,5 +1,5 @@
-from student import Student
-from session import Session
+from classes import student
+from classes import session
 
 class Database:
 
@@ -26,7 +26,18 @@ class Database:
     def addStudent(self, student):
         if student.email not in self.__studentDict:
             self.__studentDict[student.email] = student
-    
+
+    #Handell Added (Tentative Validation Method)
+    def validateStudent(self, email, password):
+        if email in self.__studentDict:
+            if password == self.studentDict[email].password:
+                #login successful
+                self.studentDict[email].toggleLogin()
+            else:
+                return "Invalid Password"
+        else:
+            return "No Email exists for this account"
+
     #preferences is a list: [subject, minSize, maxSize, date]
     #returns a list
     def findSessions(self, preferences):
