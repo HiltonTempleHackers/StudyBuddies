@@ -10,6 +10,12 @@ class Session:
         self.__userList = [] #list of user objects belonging to this session
         self.__currentSize = 0 #size of userList
 
+        self.__searchTerms = [self.__subject, self.__maxSize, self.__date]
+
+    @property
+    def searchTerms(self):
+        return self.__searchTerms
+
     @property  
     def subject(self):
         return self.__subject
@@ -17,11 +23,24 @@ class Session:
     @property
     def maxSize(self):
         return self.__maxSize
+    
+    @property
+    def school(self):
+        return self.__school
+    
+    @property
+    def title(self):
+        return self.__title
 
-
+    @property
+    def date(self):
+        return self.__date
+    
     def match(self):
         pass
 
+
+#end class stuff
 def main():
     pass
 

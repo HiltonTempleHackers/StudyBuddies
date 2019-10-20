@@ -17,18 +17,20 @@ class Student:
     def school(self):
         return self.__school
 
-    def searchGroups1(self, subject):
+    @property
+    def year(self):
+        return self.__year
+
+    @property
+    def major(self):
+        return self.__major
+
+    def searchGroups(self, userSearchTerms):
         pass
     
-    def searchGroups2(self, subject, maxSize):
-        pass
 
-    def searchGroups3(self, subject, date):
-        pass
 
-    def searchGroups4(self, subject, maxSize, date):
-        pass 
-
+#end class stuff
 def main():
     s1 = Student("wow@gmail.com", "1234", "wilson", "diaz", "temple", "sophomore", "ist")
     print(s1.fullname)
