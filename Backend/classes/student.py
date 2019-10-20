@@ -24,6 +24,14 @@ class Student:
     @property
     def major(self):
         return self.__major
+        
+    @property
+    def email(self):
+        return self.__email
+        
+    @property
+    def password(self):
+        return self.__password
 
     def searchGroups(self, userSearchTerms):
         pass
