@@ -34,7 +34,7 @@ class Student:
         return self.__password
 
     def __str__(self):
-        return "Email: "+self.__email+"\nPassword: "+self.__password+"\nFirst Name: "+self.__firstName+"\nLast Name: "+self.__lastName+"\nSchool: "+self.__school+"\nYear: "+self.__year+"\nMajor: "+self.__major+"\n"
+        print("" + self.__email + "" + self.__firstName + '' + self.__lastName + "" + self.__school + "" + self.__year + "" + self.__major)
     
 
 

@@ -12,7 +12,7 @@ class Database:
         return self.__subjectsToSessions
     
     @property
-    def userDict(self):
+    def studentDict(self):
         return self.__studentDict
     
     def addSession(self, session):
