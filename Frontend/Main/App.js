@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, Image, TextInput, Form, Keyboard, ScrollView} from 'react-native';
+import { Button, View, Text, StyleSheet, SafeAreaView, Alert, TouchableOpacity, 
+  Image, TextInput, Form, Keyboard, ScrollView, List, FlatList, Dimensions} from 'react-native';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { createAppContainer, withOrientation } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import ModalDropdown from 'react-native-modal-dropdown';
 import CalendarPicker from 'react-native-calendar-picker';
+import faker from 'faker';
+import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';
 
 
 function Separator() {
@@ -40,6 +43,11 @@ class HomeScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Chat')}>
               <Text style={styles.text}>CHAT</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => this.props.navigation.navigate('Profile')}>
+              <Text style={styles.text}>PROFILE</Text>
+          </TouchableOpacity>
       </View>
       </SafeAreaView>
     )}
@@ -72,7 +80,9 @@ export class Join extends React.Component {
         <View style={styles.pages}>
           <Text style={styles.pageHeader}>JOIN A STUDY SESSION</Text>
           <Separator></Separator>
-          <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}>
+          <ModalDropdown style={styles.dropDown} options={courses} onSelect={(index,value)=>{this.setState({selected:value})}}
+           onPress={() => {
+            this.props.navigation.navigate('Feed', {subject: value})}}>
           </ModalDropdown>
           <Separator></Separator>
           <TextInput
@@ -100,13 +110,19 @@ export class Join extends React.Component {
           </CalendarPicker>
           <TouchableOpacity
             style={styles.buttonStyle} 
-            onPress={() => Alert.alert("Searching...")}>
-                <Text style={styles.text}>SEARCH</Text>
+            onPress={() => this.props.navigation.navigate('Feed')}>
+            <Text style={styles.text}>SEARCH</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
     );
   }
+}
+
+class Profile extends React.Component {
+  static navigationOptions = {
+    title: 'PROFILE',
+  };
 }
 
 class Create extends React.Component {
@@ -184,6 +200,104 @@ class Chat extends React.Component {
   }
 }
 
+class Session extends React.Component {
+  static navigationOptions = {
+    title: 'SESSION',
+  };
+  render() {
+    const { navigation } = this.props;
+    return (
+      <View style={styles.pages}>
+        <Separator></Separator>
+        <Text style={styles.showTitle}>{navigation.getParam('name', 'NO NAME')}</Text>
+        <Separator></Separator>
+        <Text style={{fontWeight: 'bold'}}>SUBJECT</Text>
+        <Text style={styles.text}>{navigation.getParam('subject', 'NO SUBJECT')}</Text>
+        <Separator></Separator>
+        <Text style={{fontWeight: 'bold'}}>CURRENT STUDY BUDDY SIZE</Text>
+        <Text style={styles.text}>{navigation.getParam('current', 'NO MEMBERS')}</Text>
+        <Separator></Separator>
+        <Text style={{fontWeight: 'bold'}}>DESCRIPTION</Text>
+        <Text style={styles.text}>{navigation.getParam('description', 'NO DESCRIPTION')}</Text>
+      </View>
+    );
+  }
+}
+
+
+class Feed extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    const fakeData = [];
+    for(i = 0; i < 100; i+= 1) {
+      fakeData.push({
+        type: 'NORMAL',
+        item: {
+          id: i,
+          image: faker.image.avatar(),
+          name: faker.name.firstName(),
+          description: faker.random.words(5),
+          current: faker.random.number({
+            'min': 1,
+            'max': 10
+          }),
+          subject: Join.setState,
+        },
+      });
+    }
+    this.state = {
+      list: new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(fakeData),
+    };
+
+    this.layoutProvider = new LayoutProvider((i) => {
+      return this.state.list.getDataForIndex(i).type;
+    }, (type, dim) => {
+      switch (type) {
+        case 'NORMAL': 
+          dim.width = SCREEN_WIDTH;
+          dim.height = 100;
+          break;
+        default: 
+          dim.width = 0;
+          dim.height = 0;
+          break;
+      };
+    })
+  }
+
+  rowRenderer = (type, data) => {
+    const { image, name, description, current, subject } = data.item;
+    return (
+        <View style={styles.listItem}>
+          <Image style={styles.image} source={{ uri: image }} />
+          <View style={styles.body}>
+            <Text style={styles.name} onPress={() => {
+            this.props.navigation.navigate('Session', {image: image, name: name, description: description, current: current, subject: subject});
+          }}>{name}</Text>
+            <Text style={styles.description}>{description}</Text>
+          </View>
+        </View>
+    )
+  }
+
+  render() {
+    return (
+      <View style={styles.listContainer}>
+        <RecyclerListView
+          style={{flex: 1}}
+          rowRenderer={this.rowRenderer}
+          dataProvider={this.state.list}
+          layoutProvider={this.layoutProvider}
+        />
+      </View>
+    );
+  }
+}
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
 const courses = ['Data Structures', 'Calculus', 'Discrete Math', 'Probability and Statistics', 'Other'];
 
 const styles = StyleSheet.create({
@@ -195,7 +309,8 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: 'white',
+    color: 'black',
+    textAlign: 'left',
   },
 
   textInput: {
@@ -290,8 +405,56 @@ const styles = StyleSheet.create({
       height: 50, 
       textAlignVertical: 'center',
       paddingLeft: 20,
+  },
+
+  item: {
+    backgroundColor: '#d8e5f1ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+
+  itemTitle: {
+    width: 300,
+    fontSize: 15,
+  },
+
+  listContainer: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    minHeight: 1,
+    minWidth: 1,
+  },
+  body: {
+    marginLeft: 10,
+    marginRight: 10,
+    maxWidth: SCREEN_WIDTH - (80 + 10 + 20),
+  },
+  image: {
+    height: 80,
+    width: 80,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 14,
+    opacity: 0.5,
+  },
+
+  listItem: {
+    flexDirection: 'row',
+    margin: 10,
+  },
+
+  showTitle: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    fontSize: 30,
   }
 });
+
 
 const RootStack = createStackNavigator(
   {
@@ -299,6 +462,9 @@ const RootStack = createStackNavigator(
     Join: Join,
     Create: Create,
     Chat: Chat,
+    Feed: Feed,
+    Session: Session,
+    Profile: Profile,
   },
   {
     initialRouteName: 'Home',
