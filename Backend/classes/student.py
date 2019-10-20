@@ -1,5 +1,3 @@
-from database import Database
-
 class Student:
 
     def __init__(self, email, password, firstName, lastName, school, year, major):
