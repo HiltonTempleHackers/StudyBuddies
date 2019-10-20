@@ -4,6 +4,7 @@ from classes import student as st
 from classes import database as db
 import json
 import requests
+import datetime
 
 app = Flask(__name__)
 
@@ -34,7 +35,6 @@ def register():
         return mainDB.studentDict[email].__str__()
     else:
         return render_template('register.html')
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -73,7 +73,32 @@ def createSession():
     else:
         return render_template('createSession.html')
 
+@app.route('/joinSession', methods=['POST', 'GET'])
+def joinSession():
+    if request.method == 'POST':
 
+        subject = request.form.get('subject')
+        minSize = request.form.get('minSize')
+        maxSize = request.form.get('maxSize')
+        date = request.form.get('date')
+        date = date.split('-')
+
+        year = int(date[0])
+        month = int(date[1])
+        day = int(date[2])
+
+        preferences = [subject, int(minSize), int(maxSize), datetime.datetime(year,month,day)]
+
+        returnList = []
+
+        #for each session in found sessions:
+        for session in mainDB.findSessions(preferences):
+            returnList.append(session.__str__())
+
+        # return date
+        return returnList.__str__()
+    else:
+        return render_template('joinSession.html')
 
 
 
@@ -117,21 +142,6 @@ def sessionDetails():
         #return mainDB.studentDict[email].__str__()
     else:
         return render_template('sessionDetails.html')
-
-@app.route('/joinSession', methods=['POST', 'GET'])
-def joinSession():
-    if request.method == 'POST':
-        # pass
-        # task_content = request.form.get('content') #request.form content type = ImmutableMultiDict; get returns String
-
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        return mainDB.validateStudent(email, password)
-        #return mainDB.studentDict[email].__str__()
-    else:
-        return render_template('joinSession.html')
-
 
 
 if __name__ == "__main__":
