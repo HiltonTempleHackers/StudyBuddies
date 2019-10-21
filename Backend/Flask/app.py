@@ -60,7 +60,13 @@ def createSession():
         maxSize = request.form.get('maxSize')
         date = request.form.get('date')
 
-        thisSession = sesh.Session(title, subject, school, maxSize, date)
+        date = date.split('-')
+
+        year = int(date[0])
+        month = int(date[1])
+        day = int(date[2])
+
+        thisSession = sesh.Session(title, subject, school, maxSize, datetime.datetime(year,month,day))
         mainDB.addSession(thisSession)
 
         returnList = []
@@ -87,7 +93,7 @@ def joinSession():
         month = int(date[1])
         day = int(date[2])
 
-        preferences = [subject, int(minSize), int(maxSize), datetime.datetime(year,month,day)]
+        preferences = [subject, minSize, maxSize, datetime.datetime(year,month,day)]
 
         returnList = []
 
